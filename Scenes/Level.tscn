@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/GravityCompr.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Wormhole.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/Level.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Planet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/LaserUfo.tscn" type="PackedScene" id=5]
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -256.0
+margin_top = -150.0
+margin_right = 1280.0
+margin_bottom = 750.0
+color = Color( 0.0392157, 0.00392157, 0.0705882, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GravityCompr" parent="." instance=ExtResource( 1 )]
+position = Vector2( 502.198, 175.224 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 512, 300 )
+current = true
+zoom = Vector2( 1.5, 1.5 )
+
+[node name="Planets" type="Node2D" parent="."]
+
+[node name="Planet" parent="Planets" instance=ExtResource( 4 )]
+position = Vector2( 225.543, 16.0311 )
+
+[node name="Planet2" parent="Planets" instance=ExtResource( 4 )]
+position = Vector2( 553.764, -17.2667 )
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="LaserUfo" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( 1372.72, 446.615 )
+
+[node name="LaserUfo2" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( -390.794, 522.596 )
+side = 1
+
+[node name="Wormhole" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1071.52, 27.8467 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -195.03
+margin_top = -104.65
+margin_right = -155.03
+margin_bottom = -73.6502
+rect_scale = Vector2( 10, 10 )
+text = "0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlanetsTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="add_score" from="Wormhole" to="." method="_on_Wormhole_add_score"]
+[connection signal="timeout" from="PlanetsTimer" to="." method="_on_PlanetsTimer_timeout"]

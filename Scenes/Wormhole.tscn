@@ -1,0 +1,113 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Wormhole.gd" type="Script" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 150.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Nueva Animación"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Form/Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.203922, 0.0431373, 0.490196, 1 ), Color( 0.0392157, 0.341176, 0.658824, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Form/Polygon2D2:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0352941, 0.294118, 0.694118, 1 ), Color( 0.113725, 0.764706, 0.831373, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Form/Polygon2D2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0.6, 0.6 ) ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Form/Polygon2D2:color:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.25, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 4 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Form/Polygon2D3:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1.5, 1.5 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 50.0
+
+[node name="Wormhole" type="Area2D"]
+gravity_point = true
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="Form" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Form"]
+scale = Vector2( 0.5, 0.5 )
+color = Color( 0.0788797, 0.269404, 0.618215, 1 )
+polygon = PoolVector2Array( 0.160217, -101.556, 34.5284, -94.1954, 57.5041, -83.625, 72.326, -68.997, 85.5656, -50.5124, 96.8945, -26.7896, 100.674, -0.331299, 97.9358, 26.0755, 90.9089, 44.4552, 83.0865, 57.8953, 68.3441, 71.8817, 55.5094, 84.0582, 25.1038, 97.4933, -1.76628, 101.029, -33.5517, 93.9731, -59.7721, 78.99, -82.9958, 55.7662, -97.2298, 25.0509, -94.9823, -29.6373, -78.5009, -64.8475, -47.7856, -88.0713, -24.9969, -98.7783 )
+
+[node name="Polygon2D2" type="Polygon2D" parent="Form"]
+scale = Vector2( 0.227755, 0.227755 )
+color = Color( 0.0948379, 0.65138, 0.798319, 0.721198 )
+polygon = PoolVector2Array( 0.160217, -101.556, 34.5284, -94.1954, 57.5041, -83.625, 72.326, -68.997, 85.5656, -50.5124, 96.8945, -26.7896, 100.674, -0.331299, 97.9358, 26.0755, 90.9089, 44.4552, 83.0865, 57.8953, 68.3441, 71.8817, 55.5094, 84.0582, 25.1038, 97.4933, -1.76628, 101.029, -33.5517, 93.9731, -59.7721, 78.99, -82.9958, 55.7662, -97.2298, 25.0509, -94.9823, -29.6373, -78.5009, -64.8475, -47.7856, -88.0713, -24.9969, -98.7783 )
+
+[node name="Polygon2D3" type="Polygon2D" parent="Form"]
+scale = Vector2( 0.879592, 0.879592 )
+color = Color( 0.180392, 0.0352941, 0.305882, 0.317647 )
+polygon = PoolVector2Array( 0.160217, -101.556, 34.5284, -94.1954, 57.5041, -83.625, 72.326, -68.997, 85.5656, -50.5124, 96.8945, -26.7896, 100.674, -0.331299, 97.9358, 26.0755, 90.9089, 44.4552, 83.0865, 57.8953, 68.3441, 71.8817, 55.5094, 84.0582, 25.1038, 97.4933, -1.76628, 101.029, -33.5517, 93.9731, -59.7721, 78.99, -82.9958, 55.7662, -97.2298, 25.0509, -94.9823, -29.6373, -78.5009, -64.8475, -47.7856, -88.0713, -24.9969, -98.7783 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Nueva Animación"
+"anims/Nueva Animación" = SubResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+gravity = 588.0
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
