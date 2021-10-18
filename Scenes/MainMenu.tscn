@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Assets/Fonts/upheavtt.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sprites/sprite_23.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Assets/Sprites/sprite_17.png" type="Texture" id=12]
 [ext_resource path="res://Assets/Sprites/sprite_25.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Music&Sounds/button.wav" type="AudioStream" id=14]
+[ext_resource path="res://Scenes/StarGen.tscn" type="PackedScene" id=15]
 
 [sub_resource type="DynamicFont" id=1]
 size = 192
@@ -39,6 +40,9 @@ color = Color( 0.0392157, 0.00392157, 0.0705882, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StarGen" parent="ColorRect" instance=ExtResource( 15 )]
+modulate = Color( 1, 1, 1, 0.74902 )
 
 [node name="Iconsmol" type="Sprite" parent="ColorRect"]
 modulate = Color( 0.94902, 0.85098, 0.321569, 1 )

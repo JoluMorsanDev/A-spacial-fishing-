@@ -17,7 +17,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 250.0
+radius = 400.0
 
 [sub_resource type="CapsuleShape2D" id=3]
 height = 46.9667
@@ -54,7 +54,6 @@ texture = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Sprites"]
 frames = SubResource( 1 )
-frame = 3
 playing = true
 
 [node name="Laser" type="Node2D" parent="Sprites"]
@@ -69,7 +68,6 @@ scale = Vector2( -1, 1 )
 texture = ExtResource( 6 )
 
 [node name="Area2D" type="Area2D" parent="Sprites/Laser"]
-visible = false
 position = Vector2( 15, -30 )
 collision_layer = 0
 collision_mask = 2
@@ -78,13 +76,11 @@ collision_mask = 2
 shape = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, 14.667 )
 rotation = 1.5708
 shape = SubResource( 3 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, -7.333 )
 rotation = 1.5708
 shape = SubResource( 4 )
@@ -95,5 +91,10 @@ autoplay = "Nueva Animación"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
+[node name="CooldownShot" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
 [connection signal="body_entered" from="Sprites/Laser/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="timeout" from="CooldownShot" to="." method="_on_CooldownShot_timeout"]

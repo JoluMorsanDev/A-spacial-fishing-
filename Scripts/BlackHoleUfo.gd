@@ -6,9 +6,9 @@ export var side = -1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	modulate = Color(1,1,1,1)
-	yield(get_tree().create_timer(rand_range(.75,2.25)),"timeout")
+	yield(get_tree().create_timer(rand_range(.5,2)),"timeout")
 	$AnimationPlayer2.play("Nueva Animación")
-	yield(get_tree().create_timer(.25),"timeout")
+	yield(get_tree().create_timer(.5),"timeout")
 	var bh = BH.instance()
 	get_parent().add_child(bh)
 	bh.global_position = global_position

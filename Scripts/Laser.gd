@@ -10,7 +10,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	global_position += 450 * transform.x * delta * side
+	global_position += 600 * transform.x * delta * side
 
 
 func _on_VisibilityNotifier2D_screen_exited():

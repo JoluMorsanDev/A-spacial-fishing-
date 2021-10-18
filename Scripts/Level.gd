@@ -5,6 +5,7 @@ var Ufo = load("res://Scenes/LaserUfo.tscn")
 var BhUfo = load("res://Scenes/BlackHoleUfo.tscn")
 var score = 0
 var life = 15
+var startspawn = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,6 +33,10 @@ func _on_Wormhole_add_score():
 		3:
 			$WormHole/Wormhole.global_position = $"WormHole/4".global_position
 	score += 200
+	if score >= 600 and startspawn == false:
+		$Enemies/Enemie1Timer.start()
+		$Enemies/Enemie2Timer.start()
+		startspawn = true
 
 func planet_exit():
 	score -= 50
@@ -79,8 +84,8 @@ func _on_Enemie2Timer_timeout():
 		ufo.global_position.x = $"Enemies/3".global_position.x
 		ufo.global_position.y = rand_range($"Enemies/3".global_position.y,$"Enemies/4".global_position.y)
 		ufo.side = -1
-	$Enemies/Enemie1Timer.wait_time -= .05
-	$Enemies/Enemie1Timer.wait_time = clamp($Enemies/Enemie1Timer.wait_time, 2.5, INF)
+	$Enemies/Enemie2Timer.wait_time -= .05
+	$Enemies/Enemie2Timer.wait_time = clamp($Enemies/Enemie2Timer.wait_time, 2.5, INF)
 
 func reduce_life():
 	score -= 50

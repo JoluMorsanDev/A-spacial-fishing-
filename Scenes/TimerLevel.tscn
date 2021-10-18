@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/GravityCompr.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Wormhole.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Planet.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Ui.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Music&Sounds/Space1.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Scenes/StarGen.tscn" type="PackedScene" id=7]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -20,13 +21,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GravityCompr" parent="." instance=ExtResource( 1 )]
-position = Vector2( 502.198, 175.224 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 512, 300 )
 current = true
 zoom = Vector2( 1.5, 1.5 )
+
+[node name="StarGen" parent="." instance=ExtResource( 7 )]
 
 [node name="Planets" type="Node2D" parent="."]
 
@@ -48,6 +48,9 @@ position = Vector2( 1024, -150 )
 wait_time = 2.0
 autostart = true
 
+[node name="GravityCompr" parent="." instance=ExtResource( 1 )]
+position = Vector2( 502.198, 175.224 )
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="1" type="Position2D" parent="Enemies"]
@@ -63,12 +66,10 @@ position = Vector2( 1350, 80 )
 position = Vector2( 1350, 520 )
 
 [node name="Enemie1Timer" type="Timer" parent="Enemies"]
-wait_time = 3.5
-autostart = true
+wait_time = 3.75
 
 [node name="Enemie2Timer" type="Timer" parent="Enemies"]
-wait_time = 4.5
-autostart = true
+wait_time = 4.75
 
 [node name="WormHole" type="Node2D" parent="."]
 
@@ -94,7 +95,6 @@ position = Vector2( 1159, 645 )
 [node name="Ui" parent="." instance=ExtResource( 5 )]
 
 [node name="Timer" type="Timer" parent="."]
-autostart = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )

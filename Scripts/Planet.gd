@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var planet = true
+var planet
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,6 +16,8 @@ func _ready():
 # warning-ignore:narrowing_conversion
 	$Sprites.modulate = Color8(226,rand_range(149,200),128,255)
 	gravity_scale = rand_range(1.5,1.75)
+	yield(get_tree().create_timer(0.25),"timeout")
+	planet = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

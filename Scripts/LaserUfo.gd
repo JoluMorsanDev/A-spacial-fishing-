@@ -3,6 +3,7 @@ extends KinematicBody2D
 var Laser = load("res://Scenes/Laser.tscn")
 var target = Vector2(0,0)
 export var side = -1
+var cooldown = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,7 +18,7 @@ func _process(delta):
 
 
 func _on_Area2D_body_entered(body):
-	if body.planet != null:
+	if body.planet != null and cooldown == false:
 		match side:
 			1:
 				target = body.global_position
@@ -27,9 +28,11 @@ func _on_Area2D_body_entered(body):
 				target = -body.global_position
 				$Sprites/Laser.look_at(target*Vector2(-1,-1))
 				shoot(1)
+		cooldown = true
+		$CooldownShot.start()
 
 func shoot(rot):
-	yield(get_tree().create_timer(0.4),"timeout")
+	yield(get_tree().create_timer(0.45),"timeout")
 	var laser = Laser.instance()
 	get_parent().call_deferred("add_child", laser)
 	laser.global_position = $Sprites/Laser.global_position
@@ -39,3 +42,7 @@ func shoot(rot):
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+
+
+func _on_CooldownShot_timeout():
+	cooldown = false
