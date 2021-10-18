@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Wormhole.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Music&Sounds/coin.wav" type="AudioStream" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 150.0
@@ -102,6 +103,8 @@ autoplay = "Nueva Animación"
 "anims/Nueva Animación" = SubResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
+space_override = 3
+gravity_point = true
 gravity = 588.0
 collision_layer = 0
 collision_mask = 2
@@ -109,5 +112,9 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false
 shape = SubResource( 3 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+bus = "Music"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

@@ -29,6 +29,7 @@ func _on_Area2D_body_entered(body):
 				shoot(1)
 
 func shoot(rot):
+	yield(get_tree().create_timer(0.4),"timeout")
 	var laser = Laser.instance()
 	get_parent().call_deferred("add_child", laser)
 	laser.global_position = $Sprites/Laser.global_position

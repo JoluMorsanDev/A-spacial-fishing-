@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/GravityCompr.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Wormhole.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Planet.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/LaserUfo.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Ui.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Music&Sounds/Space1.mp3" type="AudioStream" id=6]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -35,33 +36,71 @@ position = Vector2( 225.543, 16.0311 )
 [node name="Planet2" parent="Planets" instance=ExtResource( 4 )]
 position = Vector2( 553.764, -17.2667 )
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="1" type="Position2D" parent="Planets"]
+visible = false
+position = Vector2( 0, -150 )
 
-[node name="LaserUfo" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( 1372.72, 446.615 )
+[node name="2" type="Position2D" parent="Planets"]
+visible = false
+position = Vector2( 1024, -150 )
 
-[node name="LaserUfo2" parent="Enemies" instance=ExtResource( 5 )]
-position = Vector2( -390.794, 522.596 )
-side = 1
-
-[node name="Wormhole" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1071.52, 27.8467 )
-
-[node name="Label" type="Label" parent="."]
-margin_left = -195.03
-margin_top = -104.65
-margin_right = -155.03
-margin_bottom = -73.6502
-rect_scale = Vector2( 10, 10 )
-text = "0
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlanetsTimer" type="Timer" parent="."]
+[node name="PlanetsTimer" type="Timer" parent="Planets"]
 wait_time = 2.0
 autostart = true
 
-[connection signal="add_score" from="Wormhole" to="." method="_on_Wormhole_add_score"]
-[connection signal="timeout" from="PlanetsTimer" to="." method="_on_PlanetsTimer_timeout"]
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="1" type="Position2D" parent="Enemies"]
+position = Vector2( -350, 80 )
+
+[node name="2" type="Position2D" parent="Enemies"]
+position = Vector2( -350, 520 )
+
+[node name="3" type="Position2D" parent="Enemies"]
+position = Vector2( 1350, 80 )
+
+[node name="4" type="Position2D" parent="Enemies"]
+position = Vector2( 1350, 520 )
+
+[node name="Enemie1Timer" type="Timer" parent="Enemies"]
+wait_time = 3.5
+autostart = true
+
+[node name="Enemie2Timer" type="Timer" parent="Enemies"]
+wait_time = 4.5
+autostart = true
+
+[node name="WormHole" type="Node2D" parent="."]
+
+[node name="Wormhole" parent="WormHole" instance=ExtResource( 2 )]
+position = Vector2( 1159, -45 )
+
+[node name="1" type="Position2D" parent="WormHole"]
+visible = false
+position = Vector2( -135, -45 )
+
+[node name="2" type="Position2D" parent="WormHole"]
+visible = false
+position = Vector2( 1159, -45 )
+
+[node name="3" type="Position2D" parent="WormHole"]
+visible = false
+position = Vector2( -135, 645 )
+
+[node name="4" type="Position2D" parent="WormHole"]
+visible = false
+position = Vector2( 1159, 645 )
+
+[node name="Ui" parent="." instance=ExtResource( 5 )]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -20.0
+autoplay = true
+bus = "Music"
+
+[connection signal="timeout" from="Planets/PlanetsTimer" to="." method="_on_PlanetsTimer_timeout"]
+[connection signal="timeout" from="Enemies/Enemie1Timer" to="." method="_on_Enemie1Timer_timeout"]
+[connection signal="timeout" from="Enemies/Enemie2Timer" to="." method="_on_Enemie2Timer_timeout"]
+[connection signal="add_score" from="WormHole/Wormhole" to="." method="_on_Wormhole_add_score"]
+[connection signal="game_over" from="Ui" to="." method="_on_Ui_game_over"]

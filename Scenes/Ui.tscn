@@ -1,0 +1,191 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Assets/Fonts/upheavtt.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Sprites/sprite_30.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/sprite_22.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/PauseUi.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/Ui.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Sprites/sprite_15.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sprites/sprite_13.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprites/sprite_14.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Music&Sounds/button.wav" type="AudioStream" id=9]
+[ext_resource path="res://Scenes/GameOverUi.tscn" type="PackedScene" id=10]
+
+[sub_resource type="DynamicFont" id=1]
+size = 96
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "GameOver"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOverUI:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1280, -150 ), Vector2( -256, -150 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ScoreLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PauseButton:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Life:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Pause"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("PauseUi:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1792, -150 ), Vector2( -256, -150 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ScoreLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PauseButton:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Life:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="Ui" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreLabel" type="Label" parent="."]
+margin_left = 277.659
+margin_top = -146.623
+margin_right = 810.659
+margin_bottom = 88.3773
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.603922, 0.788235, 0.968627, 1 )
+text = "Score: 0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseButton" type="TextureButton" parent="."]
+margin_left = -218.852
+margin_top = -121.912
+margin_right = -138.852
+margin_bottom = -41.9116
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Life" type="TextureProgress" parent="."]
+margin_left = 1147.79
+margin_top = -118.886
+margin_right = 1227.79
+margin_bottom = -38.8857
+max_value = 15.0
+value = 15.0
+texture_under = ExtResource( 8 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
+fill_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseUi" parent="." instance=ExtResource( 4 )]
+margin_left = -1792.0
+margin_right = -256.0
+
+[node name="GameOverUI" parent="." instance=ExtResource( 10 )]
+margin_left = 1280.0
+margin_right = 2816.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+pause_mode = 2
+anims/GameOver = SubResource( 3 )
+anims/Pause = SubResource( 2 )
+
+[node name="PressButton" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 9 )
+volume_db = -5.0
+pitch_scale = 1.25
+bus = "Music"
+
+[connection signal="pressed" from="PauseButton" to="." method="_on_PauseButton_pressed"]
+[connection signal="value_changed" from="Life" to="." method="_on_Life_value_changed"]
+[connection signal="play" from="PauseUi" to="." method="_on_PauseUi_play"]

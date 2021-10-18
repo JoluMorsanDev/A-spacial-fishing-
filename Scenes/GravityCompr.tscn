@@ -36,18 +36,17 @@ tracks/1/keys = {
 
 [node name="GravityCompr" type="Area2D"]
 modulate = Color( 0.615686, 0, 1, 1 )
-scale = Vector2( 2, 2 )
+scale = Vector2( 2.75, 2.75 )
 space_override = 1
 gravity_point = true
 gravity_vec = Vector2( 0, 0 )
-gravity = 367.5
+gravity = 551.25
 priority = 1.0
 script = ExtResource( 1 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false
-rotation = 2.14751
-color = Color( 0, 0, 0, 0.188032 )
+color = Color( 0, 0, 0, 0 )
 polygon = PoolVector2Array( 0.160217, -101.556, 34.5284, -94.1954, 57.5041, -83.625, 72.326, -68.997, 85.5656, -50.5124, 96.8945, -26.7896, 100.674, -0.331299, 97.9358, 26.0755, 90.9089, 44.4552, 83.0865, 57.8953, 68.3441, 71.8817, 55.5094, 84.0582, 25.1038, 97.4933, -1.76628, 101.029, -33.5517, 93.9731, -59.7721, 78.99, -82.9958, 55.7662, -97.2298, 25.0509, -94.9823, -29.6373, -78.5009, -64.8475, -47.7856, -88.0713, -24.9969, -98.7783 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

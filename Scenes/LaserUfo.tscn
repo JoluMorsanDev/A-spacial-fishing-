@@ -44,6 +44,7 @@ tracks/0/keys = {
 
 [node name="LaserUfo" type="KinematicBody2D"]
 position = Vector2( 0, -10 )
+collision_layer = 0
 script = ExtResource( 7 )
 
 [node name="Sprites" type="Node2D" parent="."]
@@ -53,7 +54,7 @@ texture = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Sprites"]
 frames = SubResource( 1 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Laser" type="Node2D" parent="Sprites"]

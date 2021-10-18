@@ -1,0 +1,95 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Sprites/sprite_08.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/sprite_03.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/sprite_05.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/sprite_06.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Sprites/sprite_07.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/BlackHoleUfo.gd" type="Script" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+height = 46.9667
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 12.0183
+
+[sub_resource type="Animation" id=4]
+resource_name = "Nueva Animación"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -10.0, 10.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Nueva Animación"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 0.890196, 0, 1 ) ]
+}
+
+[node name="LaserUfo" type="KinematicBody2D"]
+position = Vector2( 0, -10 )
+collision_layer = 0
+script = ExtResource( 6 )
+
+[node name="Sprites" type="Node2D" parent="."]
+position = Vector2( 0, -10 )
+
+[node name="Sprite" type="Sprite" parent="Sprites"]
+texture = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Sprites"]
+frames = SubResource( 1 )
+frame = 2
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0, 14.667 )
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0, -7.333 )
+rotation = 1.5708
+shape = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Nueva Animación"
+"anims/Nueva Animación" = SubResource( 4 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+"anims/Nueva Animación" = SubResource( 5 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

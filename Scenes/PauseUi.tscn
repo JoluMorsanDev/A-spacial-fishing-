@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Sprites/sprite_31.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/sprite_23.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Fonts/upheavtt.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Assets/Sprites/sprite_17.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Sprites/sprite_25.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/sprite_18.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sprites/sprite_29.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprites/sprite_21.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/PauseUi.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Music&Sounds/button.wav" type="AudioStream" id=10]
+
+[sub_resource type="DynamicFont" id=1]
+size = 96
+font_data = ExtResource( 3 )
+
+[node name="PauseUi" type="ColorRect"]
+pause_mode = 2
+margin_left = -256.0
+margin_top = -150.0
+margin_right = 1280.0
+margin_bottom = 750.0
+color = Color( 0.180392, 0.133333, 0.368627, 0.498039 )
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseLabel" type="Label" parent="."]
+margin_left = 597.271
+margin_top = 269.156
+margin_right = 1130.27
+margin_bottom = 504.156
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.603922, 0.788235, 0.968627, 1 )
+text = "Pause
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="TextureButton" parent="."]
+margin_left = 513.403
+margin_top = 397.187
+margin_right = 593.403
+margin_bottom = 477.187
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HomeButton" type="TextureButton" parent="."]
+margin_left = 629.369
+margin_top = 397.187
+margin_right = 709.369
+margin_bottom = 477.187
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="TextureButton" parent="."]
+margin_left = 742.506
+margin_top = 400.016
+margin_right = 822.506
+margin_bottom = 480.016
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoundButton" type="TextureButton" parent="."]
+margin_left = 855.643
+margin_top = 402.844
+margin_right = 935.643
+margin_bottom = 482.844
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PressButton" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -5.0
+pitch_scale = 1.25
+bus = "Music"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="HomeButton" to="." method="_on_HomeButton_pressed"]
+[connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="SoundButton" to="." method="_on_SoundButton_pressed"]

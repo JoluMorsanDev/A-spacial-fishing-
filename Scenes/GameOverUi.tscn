@@ -1,0 +1,94 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Fonts/upheavtt.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Assets/Sprites/sprite_17.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Sprites/sprite_25.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/sprite_18.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sprites/sprite_29.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprites/sprite_21.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/PauseUi.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Music&Sounds/button.wav" type="AudioStream" id=10]
+
+[sub_resource type="DynamicFont" id=1]
+size = 96
+font_data = ExtResource( 3 )
+
+[node name="GameOverUI" type="ColorRect"]
+pause_mode = 2
+margin_left = -256.0
+margin_top = -150.0
+margin_right = 1280.0
+margin_bottom = 750.0
+color = Color( 0.0470588, 0.0313726, 0.0980392, 0.921569 )
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 512.514
+margin_top = 175.923
+margin_right = 1045.51
+margin_bottom = 410.923
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.603922, 0.788235, 0.968627, 1 )
+text = "Game over
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreUi" type="Label" parent="."]
+margin_left = 554.892
+margin_top = 286.107
+margin_right = 1087.89
+margin_bottom = 521.107
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.603922, 0.788235, 0.968627, 1 )
+text = "Score: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HomeButton" type="TextureButton" parent="."]
+margin_left = 535.747
+margin_top = 394.852
+margin_right = 615.747
+margin_bottom = 474.852
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="TextureButton" parent="."]
+margin_left = 732.171
+margin_top = 462.967
+margin_right = 812.171
+margin_bottom = 542.967
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoundButton" type="TextureButton" parent="."]
+margin_left = 910.4
+margin_top = 390.606
+margin_right = 990.4
+margin_bottom = 470.606
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PressButton" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -5.0
+pitch_scale = 1.25
+bus = "Music"
+
+[connection signal="pressed" from="HomeButton" to="." method="_on_HomeButton_pressed"]
+[connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="SoundButton" to="." method="_on_SoundButton_pressed"]

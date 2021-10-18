@@ -17,6 +17,6 @@ func _process(delta):
 		$CollisionShape2D.set_deferred("disabled", false)
 		$Polygon2D.show()
 	if Input.is_action_just_released("gravitystop"):
-		$CollisionShape2D.set_deferred("disabled", false)
+		$CollisionShape2D.set_deferred("disabled", true)
 		$Polygon2D.hide()
 	global_position = get_global_mouse_position()

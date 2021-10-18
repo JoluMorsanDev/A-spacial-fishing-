@@ -26,3 +26,17 @@ func _ready():
 func _on_VisibilityNotifier2D_screen_exited():
 	get_parent().get_parent().planet_exit()
 	queue_free()
+
+
+# warning-ignore:unused_argument
+func _on_CollisionArea_area_entered(area):
+	gravity_scale = 0
+	$Boom.play()
+	$Sprites.queue_free()
+	$DestroyAnim.show()
+	$Gravity.queue_free()
+	$CollisionArea.queue_free()
+	$CollisionShape2D.scale = Vector2(0,0)
+	yield(get_tree().create_timer(1),"timeout")
+	get_parent().get_parent().reduce_life()
+	queue_free()
