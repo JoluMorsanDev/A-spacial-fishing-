@@ -1,9 +1,6 @@
 extends Area2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+export var behave = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,10 +10,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 # warning-ignore:unused_argument
 func _process(delta):
-	if Input.is_action_just_pressed("gravitystart"):
-		$CollisionShape2D.set_deferred("disabled", false)
-		show()
-	if Input.is_action_just_released("gravitystop"):
-		$CollisionShape2D.set_deferred("disabled", true)
-		hide()
-	global_position = get_global_mouse_position()
+	if behave == true:
+		if Input.is_action_just_pressed("gravitystart"):
+			$CollisionShape2D.set_deferred("disabled", false)
+			show()
+		if Input.is_action_just_released("gravitystop"):
+			$CollisionShape2D.set_deferred("disabled", true)
+			hide()
+		global_position = get_global_mouse_position()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Assets/Fonts/upheavtt.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sprites/sprite_23.png" type="Texture" id=2]
@@ -15,6 +15,27 @@
 [ext_resource path="res://Assets/Sprites/sprite_25.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Music&Sounds/button.wav" type="AudioStream" id=14]
 [ext_resource path="res://Scenes/StarGen.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Assets/Sprites/sprite_36.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Sprites/sprite_37.png" type="Texture" id=17]
+[ext_resource path="res://Scenes/Wormhole.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Scenes/GravityCompr.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Assets/Sprites/sprite_00.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Sprites/sprite_09.png" type="Texture" id=21]
+[ext_resource path="res://Assets/Sprites/sprite_05.png" type="Texture" id=22]
+[ext_resource path="res://Assets/Sprites/sprite_04.png" type="Texture" id=23]
+[ext_resource path="res://Assets/Sprites/sprite_10.png" type="Texture" id=24]
+[ext_resource path="res://Assets/Sprites/sprite_03.png" type="Texture" id=25]
+[ext_resource path="res://Assets/Sprites/sprite_01.png" type="Texture" id=26]
+[ext_resource path="res://Assets/Sprites/sprite_11.png" type="Texture" id=27]
+[ext_resource path="res://Assets/Sprites/sprite_15.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Sprites/sprite_13.png" type="Texture" id=29]
+[ext_resource path="res://Assets/Sprites/sprite_32.png" type="Texture" id=30]
+[ext_resource path="res://Assets/Sprites/sprite_34.png" type="Texture" id=31]
+[ext_resource path="res://Assets/Sprites/sprite_35.png" type="Texture" id=32]
+[ext_resource path="res://Assets/Sprites/sprite_33.png" type="Texture" id=33]
+[ext_resource path="res://Assets/Sprites/sprite_38.png" type="Texture" id=34]
+[ext_resource path="res://Assets/Sprites/sprite_39.png" type="Texture" id=35]
+[ext_resource path="res://Assets/Music&Sounds/Space2.mp3" type="AudioStream" id=36]
 
 [sub_resource type="DynamicFont" id=1]
 size = 192
@@ -25,7 +46,75 @@ size = 64
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
+size = 128
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 64
+font_data = ExtResource( 1 )
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float strength = 0.03;
+uniform float black_radius = .65;
+
+void fragment() {
+    // Get direction and distance to the black hole center
+    vec2 diff = vec2(0.5, 0.5) - vec2(UV.x, 1.0-UV.y);
+    float d = length(diff) * 2.0;
+    vec2 dir = normalize(diff);
+    float f = clamp(1.0-d, 0.0, 1.0);
+
+    // This is a 0..1 value that will nullify the effect around the bounds of the effect,
+    // for a seamless transition between the effect's area and the unaffected world pixels.
+    float shelf = smoothstep(0, 1, f);
+    // Calculate displacement amount
+    float displacement = strength / (d*d + 0.01);
+
+    // Calculate distorted screen-space texture coordinates
+    vec2 uv = SCREEN_UV + dir * (displacement * shelf);
+
+    // Output pixels from the screen using distorted UVs
+    vec3 col = texture(SCREEN_TEXTURE, uv).xyz;
+    COLOR.rgb = mix(col, vec3(0,0,0), smoothstep(black_radius-0.01, black_radius+0.01, f));
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/strength = 0.03
+shader_param/black_radius = 0.65
+
+[sub_resource type="Animation" id=7]
+length = 1.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Polygon2D2:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0, 0.0, 360.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Polygon2D4:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0, 0.0, 360.0 ]
+}
+
+[sub_resource type="DynamicFont" id=8]
+size = 128
 font_data = ExtResource( 1 )
 
 [node name="MainMenu" type="Node2D"]
@@ -68,7 +157,7 @@ modulate = Color( 0.658824, 0.556863, 0.509804, 1 )
 position = Vector2( 131.521, 297.088 )
 texture = ExtResource( 11 )
 
-[node name="Label" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
 margin_left = 45.1653
 margin_top = -90.387
 margin_right = 1023.17
@@ -165,8 +254,8 @@ margin_left = -213.816
 margin_top = 645.011
 margin_right = -133.816
 margin_bottom = 725.011
-texture_normal = ExtResource( 9 )
-texture_pressed = ExtResource( 8 )
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -182,7 +271,406 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CreditsButton" type="TextureButton" parent="Ui"]
+margin_left = 1172.71
+margin_top = 648.433
+margin_right = 1252.71
+margin_bottom = 728.433
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="HowToPlay" type="ColorRect" parent="."]
+visible = false
+margin_left = -255.868
+margin_top = -149.934
+margin_right = 1280.13
+margin_bottom = 750.066
+color = Color( 0.0392157, 0.00392157, 0.0705882, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pinned" type="Node2D" parent="HowToPlay"]
+
+[node name="Iconsmol" type="Sprite" parent="HowToPlay/Pinned"]
+modulate = Color( 0.94902, 0.85098, 0.321569, 1 )
+position = Vector2( 1436.78, 742.062 )
+texture = ExtResource( 11 )
+flip_h = true
+
+[node name="Iconsmol2" type="Sprite" parent="HowToPlay/Pinned"]
+modulate = Color( 0.945098, 0.498039, 0.360784, 1 )
+position = Vector2( 139.997, 799.272 )
+scale = Vector2( 1, 1.05297 )
+texture = ExtResource( 11 )
+flip_v = true
+
+[node name="Iconsmol3" type="Sprite" parent="HowToPlay/Pinned"]
+modulate = Color( 1, 0.807843, 0.584314, 1 )
+position = Vector2( 1432.54, 89.4328 )
+texture = ExtResource( 11 )
+flip_h = true
+flip_v = true
+
+[node name="Iconsmol4" type="Sprite" parent="HowToPlay/Pinned"]
+modulate = Color( 0.658824, 0.556863, 0.509804, 1 )
+position = Vector2( 89.1425, 258.947 )
+texture = ExtResource( 11 )
+
+[node name="Label3" type="Label" parent="HowToPlay/Pinned"]
+margin_left = 345.281
+margin_top = 23.3657
+margin_right = 1140.28
+margin_bottom = 139.366
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.866667, 0.772549, 0.717647, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "How to play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="TextureButton" parent="HowToPlay/Pinned"]
+margin_left = 86.9017
+margin_top = 65.9255
+margin_right = 166.902
+margin_bottom = 145.926
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Nexthtp" type="TextureButton" parent="HowToPlay/Pinned"]
+margin_left = 1314.07
+margin_top = 772.679
+margin_right = 1394.07
+margin_bottom = 852.679
+texture_normal = ExtResource( 34 )
+texture_pressed = ExtResource( 35 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Backhtp" type="TextureButton" parent="HowToPlay/Pinned"]
+margin_left = 283.574
+margin_top = 772.678
+margin_right = 363.574
+margin_bottom = 852.678
+rect_scale = Vector2( -1, 1 )
+texture_normal = ExtResource( 34 )
+texture_pressed = ExtResource( 35 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Page1" type="Node2D" parent="HowToPlay"]
+
+[node name="Label2" type="Label" parent="HowToPlay/Page1"]
+visible = false
+margin_left = 227.0
+margin_top = 150.0
+margin_right = 1378.0
+margin_bottom = 269.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "You need to fish the planets with
+ gravity! "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="HowToPlay/Page1"]
+margin_left = 166.328
+margin_top = 328.611
+margin_right = 1029.33
+margin_bottom = 447.611
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Click and hold to make a 
+gravitational field"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_01" type="Sprite" parent="HowToPlay/Page1/Label4"]
+position = Vector2( 1134.59, 46.6972 )
+texture = ExtResource( 20 )
+
+[node name="GravityCompr" parent="HowToPlay/Page1/Label4" instance=ExtResource( 19 )]
+visible = true
+position = Vector2( 1052.59, 54.6972 )
+scale = Vector2( 1, 1 )
+behave = false
+
+[node name="Label5" type="Label" parent="HowToPlay/Page1"]
+margin_left = 468.882
+margin_top = 573.893
+margin_right = 1432.88
+margin_bottom = 692.893
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Put planets in the wormhole
+and earn points!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_00" type="Sprite" parent="HowToPlay/Page1/Label5"]
+position = Vector2( -253.806, 23.453 )
+texture = ExtResource( 20 )
+
+[node name="Wormhole" parent="HowToPlay/Page1/Label5" instance=ExtResource( 18 )]
+position = Vector2( -173.443, 71.0273 )
+gravity = 0.0
+
+[node name="Page2" type="Node2D" parent="HowToPlay"]
+visible = false
+
+[node name="Label2" type="Label" parent="HowToPlay/Page2"]
+margin_left = 227.0
+margin_top = 150.0
+margin_right = 1378.0
+margin_bottom = 269.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Avoid dangers:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="HowToPlay/Page2"]
+margin_left = 201.897
+margin_top = 243.34
+margin_right = 1459.9
+margin_bottom = 362.34
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Laser ufos, and black hole bombs are
+the main treats"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UFO" type="Sprite" parent="HowToPlay/Page2/Label4"]
+position = Vector2( 261.839, 218.039 )
+texture = ExtResource( 23 )
+flip_h = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite_05" type="Sprite" parent="HowToPlay/Page2/Label4/UFO"]
+texture = ExtResource( 22 )
+flip_h = true
+
+[node name="sprite_10" type="Sprite" parent="HowToPlay/Page2/Label4/UFO"]
+position = Vector2( -12.546, -8.88107 )
+rotation = -0.246091
+texture = ExtResource( 24 )
+centered = false
+flip_h = true
+
+[node name="sprite_09" type="Sprite" parent="HowToPlay/Page2/Label4/UFO"]
+position = Vector2( 94.8712, 6.30246 )
+rotation = -0.216421
+texture = ExtResource( 21 )
+
+[node name="BH" type="Node2D" parent="HowToPlay/Page2/Label4"]
+position = Vector2( 25.103, -93.34 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Polygon2D2" type="ColorRect" parent="HowToPlay/Page2/Label4/BH"]
+margin_left = 761.029
+margin_top = 316.534
+margin_right = 781.029
+margin_bottom = 336.534
+grow_horizontal = 2
+grow_vertical = 2
+rect_rotation = 22.9876
+rect_scale = Vector2( 3, 3 )
+color = Color( 0.980392, 0.345098, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Polygon2D4" type="ColorRect" parent="HowToPlay/Page2/Label4/BH"]
+margin_left = 761.029
+margin_top = 316.534
+margin_right = 781.029
+margin_bottom = 336.534
+grow_horizontal = 2
+grow_vertical = 2
+rect_rotation = 22.9876
+rect_scale = Vector2( -3, -3 )
+color = Color( 0.905882, 0.627451, 0.0980392, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Polygon2D3" type="ColorRect" parent="HowToPlay/Page2/Label4/BH"]
+material = SubResource( 6 )
+margin_left = 561.029
+margin_top = 116.534
+margin_right = 601.029
+margin_bottom = 156.534
+rect_scale = Vector2( 10, 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_03" type="Sprite" parent="HowToPlay/Page2/Label4/BH"]
+position = Vector2( 576.653, 321.346 )
+texture = ExtResource( 25 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HowToPlay/Page2/Label4/BH"]
+autoplay = "as"
+playback_speed = 2.5
+anims/as = SubResource( 7 )
+
+[node name="Label5" type="Label" parent="HowToPlay/Page2"]
+margin_left = 259.445
+margin_top = 605.822
+margin_right = 1255.45
+margin_bottom = 724.822
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "But planets sometimes crash!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_00" type="Sprite" parent="HowToPlay/Page2/Label5"]
+position = Vector2( 387.003, 158.306 )
+rotation = 1.48353
+texture = ExtResource( 20 )
+
+[node name="sprite_11" type="Sprite" parent="HowToPlay/Page2/Label5"]
+position = Vector2( 431.139, 156.731 )
+texture = ExtResource( 27 )
+
+[node name="sprite_01" type="Sprite" parent="HowToPlay/Page2/Label5"]
+position = Vector2( 455.785, 155.652 )
+texture = ExtResource( 20 )
+
+[node name="sprite_01" type="Sprite" parent="HowToPlay/Page2/Label5/sprite_01"]
+texture = ExtResource( 26 )
+
+[node name="Page3" type="Node2D" parent="HowToPlay"]
+visible = false
+
+[node name="Label2" type="Label" parent="HowToPlay/Page3"]
+margin_left = 227.0
+margin_top = 232.274
+margin_right = 1515.0
+margin_bottom = 351.274
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Arcade mode: You have 15 lifes, try to 
+save the planets from boom"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_13" type="Sprite" parent="HowToPlay/Page3/Label2"]
+position = Vector2( -88.8866, 121.595 )
+texture = ExtResource( 29 )
+
+[node name="sprite_15" type="Sprite" parent="HowToPlay/Page3/Label2/sprite_13"]
+texture = ExtResource( 28 )
+
+[node name="Label4" type="Label" parent="HowToPlay/Page3"]
+margin_left = 69.0695
+margin_top = 431.987
+margin_right = 1331.07
+margin_bottom = 550.987
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Timer mode: You have 60 secs to earn 
+points"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_11" type="Sprite" parent="HowToPlay/Page3/Label4"]
+position = Vector2( 1348.6, 44.7439 )
+texture = ExtResource( 27 )
+
+[node name="Label5" type="Label" parent="HowToPlay/Page3"]
+margin_left = 118.507
+margin_top = 615.155
+margin_right = 1247.51
+margin_bottom = 734.155
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Zen mode: No lifes, no enemies, no
+wormhole tp, just relax fishing!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sprite_32" type="Sprite" parent="HowToPlay/Page3/Label5"]
+position = Vector2( 376.336, 180.434 )
+texture = ExtResource( 30 )
+
+[node name="sprite_35" type="Sprite" parent="HowToPlay/Page3/Label5"]
+position = Vector2( 558.564, 235.527 )
+texture = ExtResource( 32 )
+
+[node name="sprite_33" type="Sprite" parent="HowToPlay/Page3/Label5"]
+position = Vector2( 749.267, 161.364 )
+texture = ExtResource( 33 )
+
+[node name="sprite_34" type="Sprite" parent="HowToPlay/Page3/Label5"]
+position = Vector2( 933.614, 207.981 )
+texture = ExtResource( 31 )
+
+[node name="Page4" type="Node2D" parent="HowToPlay"]
+visible = false
+
+[node name="Label2" type="Label" parent="HowToPlay/Page4"]
+margin_left = 202.0
+margin_top = 311.0
+margin_right = 1397.0
+margin_bottom = 430.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "In arcade mode, you need to get 600
+ points for start seeing enemies"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label5" type="Label" parent="HowToPlay/Page4"]
+margin_left = 189.184
+margin_top = 514.563
+margin_right = 1416.18
+margin_bottom = 633.563
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "IN timer, you need 300 points for
+ start the timer and seeing enemies"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="ColorRect" parent="."]
 visible = false
 margin_left = -256.0
 margin_top = -150.0
@@ -193,80 +681,90 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Iconsmol" type="Sprite" parent="HowToPlay"]
+[node name="Iconsmol" type="Sprite" parent="Credits"]
 modulate = Color( 0.94902, 0.85098, 0.321569, 1 )
 position = Vector2( 1436.78, 742.062 )
 texture = ExtResource( 11 )
 flip_h = true
 
-[node name="Iconsmol2" type="Sprite" parent="HowToPlay"]
+[node name="Iconsmol2" type="Sprite" parent="Credits"]
 modulate = Color( 0.945098, 0.498039, 0.360784, 1 )
 position = Vector2( 139.997, 799.272 )
 scale = Vector2( 1, 1.05297 )
 texture = ExtResource( 11 )
 flip_v = true
 
-[node name="Iconsmol3" type="Sprite" parent="HowToPlay"]
+[node name="Iconsmol3" type="Sprite" parent="Credits"]
 modulate = Color( 1, 0.807843, 0.584314, 1 )
 position = Vector2( 1432.54, 89.4328 )
 texture = ExtResource( 11 )
 flip_h = true
 flip_v = true
 
-[node name="Iconsmol4" type="Sprite" parent="HowToPlay"]
+[node name="Iconsmol4" type="Sprite" parent="Credits"]
 modulate = Color( 0.658824, 0.556863, 0.509804, 1 )
 position = Vector2( 89.1425, 258.947 )
 texture = ExtResource( 11 )
 
-[node name="Back" type="TextureButton" parent="HowToPlay"]
+[node name="Backcredits" type="TextureButton" parent="Credits"]
 margin_left = 86.9017
 margin_top = 65.9255
 margin_right = 166.902
 margin_bottom = 145.926
 texture_normal = ExtResource( 12 )
 texture_pressed = ExtResource( 13 )
-
-[node name="Label" type="Label" parent="HowToPlay"]
-margin_left = 178.045
-margin_top = 42.8613
-margin_right = 1409.05
-margin_bottom = 466.861
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-text = "You need to fish the planets with
- gravity! Click and hold to make a 
-gravitational field, as you put the 
-planets in the wormhole, and
-avoid danger, zen mode is no lose 
-infinity mode to relax and this how
- to play is wip!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="HowToPlay"]
-margin_left = 118.715
-margin_top = 470.884
-margin_right = 1349.72
-margin_bottom = 894.884
-custom_fonts/font = SubResource( 3 )
+[node name="Label" type="Label" parent="Credits"]
+margin_left = 484.669
+margin_top = 42.6425
+margin_right = 1009.67
+margin_bottom = 158.643
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0.678431, 0.588235, 0.878431, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Credits"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Credits"]
+margin_left = 206.67
+margin_top = 214.366
+margin_right = 1319.67
+margin_bottom = 333.366
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.717647, 0.513726, 0.745098, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "Game and sprites: Jolumorsandev
-sound effects: Jolumorsandev and 
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="Credits"]
+margin_left = 199.186
+margin_top = 393.643
+margin_right = 1430.19
+margin_bottom = 573.643
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.717647, 0.513726, 0.745098, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "sound effects: Jolumorsandev and 
 https://soundbible.com/
 472-Laser-Blasts.html"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label3" type="Label" parent="HowToPlay"]
-margin_left = 258.757
-margin_top = 715.379
-margin_right = 1489.76
-margin_bottom = 1139.38
-custom_fonts/font = SubResource( 3 )
+[node name="Label3" type="Label" parent="Credits"]
+margin_left = 226.348
+margin_top = 686.036
+margin_right = 1247.35
+margin_bottom = 805.036
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.866667, 0.772549, 0.717647, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "Music: https://soundbible.com
@@ -276,6 +774,7 @@ __meta__ = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 position = Vector2( 512, 300 )
 current = true
 zoom = Vector2( 1.5, 1.5 )
@@ -286,10 +785,20 @@ volume_db = -5.0
 pitch_scale = 1.25
 bus = "Music"
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 36 )
+volume_db = -10.0
+autoplay = true
+bus = "Music"
+
 [connection signal="pressed" from="Ui/ArcadePlay" to="." method="_on_ArcadePlay_pressed"]
 [connection signal="pressed" from="Ui/ZenPlay" to="." method="_on_ZenPlay_pressed"]
 [connection signal="pressed" from="Ui/TimeLimitPlay" to="." method="_on_TimeLimitPlay_pressed"]
 [connection signal="pressed" from="Ui/SoundButton" to="." method="_on_SoundButton_pressed"]
 [connection signal="pressed" from="Ui/HTPButton" to="." method="_on_HTPButton_pressed"]
 [connection signal="pressed" from="Ui/CloseButton" to="." method="_on_CloseButton_pressed"]
-[connection signal="pressed" from="HowToPlay/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="Ui/CreditsButton" to="." method="_on_CreditsButton_pressed"]
+[connection signal="pressed" from="HowToPlay/Pinned/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="HowToPlay/Pinned/Nexthtp" to="." method="_on_Nexthtp_pressed"]
+[connection signal="pressed" from="HowToPlay/Pinned/Backhtp" to="." method="_on_Backhtp_pressed"]
+[connection signal="pressed" from="Credits/Backcredits" to="." method="_on_Backcredits_pressed"]

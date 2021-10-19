@@ -1,16 +1,19 @@
 extends ColorRect
 
 signal play
+var buttonmute = load("res://Assets/Sprites/sprite_40.png")
+var buttonsound = load("res://Assets/Sprites/sprite_21.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+# warning-ignore:unused_argument
+func _process(delta):
+	if AudioServer.is_bus_mute(1):
+		$SoundButton.texture_normal = buttonmute
+	else:
+		$SoundButton.texture_normal = buttonsound
 
 func _on_PlayButton_pressed():
 	$PressButton.play()
